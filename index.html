@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--bootstrap cdn-->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js" integrity="sha384-u/bQvRA/1bobcXlcEYpsEdFVK/vJs3+T+nXLsBYJthmdBuavHvAW6UsmqO2Gd/F9" crossorigin="anonymous"></script>
+        <!--jQuery cdn-->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h3>Delivery Destinations</h3>
+            <form id="delivery_list">
+                <input type="text" id="d1" placeholder="Please enter address" value="" style="width:500px"><br>
+                <input type="text" id="d2" placeholder="Please enter address" value="" style="width:500px"><br>
+                <input type="text" id="d3" placeholder="Please enter address" value="" style="width:500px"><br>
+                <input type="text" id="d4" placeholder="Please enter address" value="" style="width:500px"><br>
+                <input type="text" id="d5" placeholder="Please enter address" value="" style="width:500px"><br>
+                <input type="text" id="d6" placeholder="Please enter address" value="" style="width:500px"><br>
+                <input type="submit">
+            </form>
+
+            
+        </div>
+
+        <script>
+            var placeSearch,autocomplete,id;
+            var componentForm = {
+                d1: 'd1',
+                d2:'d2',
+                d3:'d3',
+                d4:'d4',
+                d5:'d5',
+                d6:'d6'
+            };
+
+            function initAutocomplete() {
+                for(var i = 1; i < 7; i++){
+                    id = 'd'+i;
+                    autocomplete = new google.maps.places.Autocomplete(
+                        (document.getElementById(id)),
+                        {types: ['geocode']});
+                    autocomplete.addListener('place_changed', fillInAddress);
+                    componentForm[id] = autocomplete
+                }
+            }        
+            
+            function fillInAddress() {
+                console.log(componentForm)
+                for(var key in componentForm)
+                {
+                    var place = componentForm[key].getPlace()
+                    
+                    document.getElementById(key).value = place.formatted_address;
+                    document.getElementById(id).disabled = false;
+                }
+            }            
+            
+        </script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYZnsEzvdGRSpV3b_k6papXr3NY0yXetM&libraries=places&callback=initAutocomplete"></script>
+    </body>
+</html>
